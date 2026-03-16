@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Líneas de Financiamiento — Chubut</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #20788C;
+    --teal-light: #E1F5EE;
+    --teal-dark: #0F5A6B;
+    --orange: #F25E3D;
+    --orange-light: #FEF0EC;
+    --bg: #F7F6F2;
+    --card: #FFFFFF;
+    --text: #1A1A1A;
+    --text-muted: #6B6B6B;
+    --text-subtle: #9B9B9B;
+    --border: #E8E6E0;
+    --border-hover: #20788C;
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --red: #C94040;
+    --red-light: #FCEAEA;
+    --amber: #B87B0A;
+    --amber-light: #FEF5E0;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --pink: #993356;
+    --pink-light: #FBEAF0;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 12px rgba(0,0,0,0.04);
+    --shadow-hover: 0 4px 16px rgba(32,120,140,0.12), 0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HERO HEADER ── */
+  .hero {
+    background: var(--teal);
+    padding: 2.5rem 2rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30%;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: .6rem;
+  }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: .6rem;
+  }
+  .hero h1 span {
+    color: rgba(255,255,255,0.55);
+  }
+  .hero-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    max-width: 520px;
+    line-height: 1.5;
+  }
+  .hero-accent {
+    display: inline-block;
+    margin-top: 1.25rem;
+    background: var(--orange);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: .02em;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--shadow);
+    border-top: 3px solid transparent;
+    transition: transform .15s;
+  }
+  .stat-card:nth-child(1) { border-top-color: var(--teal); }
+  .stat-card:nth-child(2) { border-top-color: var(--green); }
+  .stat-card:nth-child(3) { border-top-color: var(--orange); }
+  .stat-card:nth-child(4) { border-top-color: var(--amber); }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ── FILTER PANEL ── */
+  .filter-panel {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .filter-panel-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+  }
+  .filters-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1rem;
+  }
+  .filter-group { display: flex; flex-direction: column; gap: 5px; }
+  .filter-group label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--text-subtle);
+  }
+  .filter-group input,
+  .filter-group select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color .15s;
+    width: 100%;
+  }
+  .filter-group input:focus,
+  .filter-group select:focus {
+    border-color: var(--teal);
+    background: #fff;
+  }
+  .filter-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1rem 0;
+  }
+  .tag-section-label {
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--text-subtle);
+    margin-bottom: 8px;
+  }
+  .tags-row { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .tag-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .tag-btn.active {
+    background: var(--teal);
+    color: #fff;
+    border-color: var(--teal);
+    font-weight: 500;
+  }
+  .tag-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: .6;
+    flex-shrink: 0;
+  }
+
+  /* ── RESULTS HEADER ── */
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .results-count {
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .results-count strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+  .clear-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .15s;
+    display: none;
+  }
+  .clear-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .clear-btn.visible { display: inline-block; }
+
+  /* ── CARDS GRID ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    border: 1.5px solid transparent;
+    transition: box-shadow .2s, border-color .2s, transform .15s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    animation: fadeUp .3s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .card:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--teal);
+    transform: translateY(-2px);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .card-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    flex: 1;
+  }
+  .entidad-pill {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+  }
+
+  .card-tag-row { display: flex; flex-wrap: wrap; gap: 5px; }
+  .ctag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 9px;
+    border-radius: 4px;
+  }
+  .ctag-capital   { background: var(--orange-light); color: var(--orange); }
+  .ctag-bienes    { background: var(--blue-light);   color: var(--blue); }
+  .ctag-comex     { background: var(--amber-light);  color: var(--amber); }
+  .ctag-social    { background: var(--pink-light);   color: var(--pink); }
+  .ctag-empleo    { background: #EAF3DE;             color: #3B6D11; }
+  .ctag-produccion{ background: var(--teal-light);   color: var(--teal-dark); }
+  .ctag-inversion { background: var(--blue-light);   color: var(--blue); }
+  .ctag-general   { background: #F1EFE8;             color: #5F5E5A; }
+
+  .tasa-block {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .tasa-block-label {
+    font-size: 11px;
+    color: var(--text-subtle);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  .tasa-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .tasa-low  { color: var(--green); }
+  .tasa-high { color: var(--red); }
+  .tasa-mid  { color: var(--teal); }
+  .tasa-na   { color: var(--text-muted); font-size: 16px; }
+
+  .card-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 12px;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 1px; }
+  .meta-key {
+    font-size: 11px;
+    color: var(--text-subtle);
+    text-transform: uppercase;
+    letter-spacing: .03em;
+  }
+  .meta-val {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .card-obs {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    padding-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── EMPTY / LOADING ── */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-muted);
+  }
+  .empty-state .big { font-size: 40px; margin-bottom: .75rem; }
+  .empty-state p { font-size: 15px; }
+
+  .loading-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 5rem 1rem;
+    color: var(--text-muted);
+    font-size: 15px;
+  }
+  .spinner {
+    width: 36px; height: 36px;
+    border: 3px solid var(--border);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 1rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .error-banner {
+    background: var(--red-light);
+    border: 1.5px solid #F09595;
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 13px;
+    color: var(--red);
+    line-height: 1.5;
+    display: none;
+  }
+  .error-banner.visible { display: block; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    font-size: 12px;
+    color: var(--text-subtle);
+    border-top: 1px solid var(--border);
+  }
+  .footer a { color: var(--teal); text-decoration: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .filters-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: 1fr 1fr; }
+    .cards-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .stats-bar { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .stat-num { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-inner">
+    <p class="hero-label">Ministerio de Producción · Provincia del Chubut</p>
+    <h1>Líneas de <span>financiamiento</span><br>disponibles</h1>
+    <p class="hero-sub">Explorá créditos para productores, PyMEs y emprendedores de Chubut. Filtrá por entidad, tasa y destino para encontrar la opción que mejor se adapta a tu proyecto.</p>
+    <span class="hero-accent">Actualización automática · Marzo 2026</span>
+  </div>
+</header>
+
+<!-- ── MAIN ── -->
+<main class="main">
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="stat-num" id="stat-total">—</div>
+      <div class="stat-label">líneas disponibles</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-entidades">—</div>
+      <div class="stat-label">entidades</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-min">—</div>
+      <div class="stat-label">tasa mínima</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-max">—</div>
+      <div class="stat-label">tasa máxima</div>
+    </div>
+  </div>
+
+  <!-- Error banner -->
+  <div class="error-banner" id="error-banner">
+    ⚠️ No se pudieron cargar los datos. Verificá que el Google Sheet sea público (Compartir → Cualquier persona con el enlace → Visor).
+    <br><small id="error-detail"></small>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filter-panel">
+    <p class="filter-panel-title">Filtrar líneas</p>
+    <div class="filters-grid">
+      <div class="filter-group">
+        <label>Buscar por nombre</label>
+        <input type="text" id="fil-search" placeholder="Ej: CRECER, PyME, capital..." autocomplete="off">
+      </div>
+      <div class="filter-group">
+        <label>Entidad</label>
+        <select id="fil-entidad">
+          <option value="">Todas las entidades</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Ordenar por tasa</label>
+        <select id="fil-orden">
+          <option value="">Sin orden específico</option>
+          <option value="asc">De menor a mayor</option>
+          <option value="desc">De mayor a menor</option>
+        </select>
+      </div>
+    </div>
+    <div class="filter-divider"></div>
+    <p class="tag-section-label">Destino del crédito (autodetectado)</p>
+    <div class="tags-row" id="tags-row">
+      <button class="tag-btn active" data-tag="" onclick="setTag(this,'')">
+        <span class="tag-dot"></span>Todos
+      </button>
+    </div>
+  </div>
+
+  <!-- Results header -->
+  <div class="results-header">
+    <p class="results-count" id="count-label">Cargando...</p>
+    <button class="clear-btn" id="clear-btn" onclick="clearFilters()">✕ Limpiar filtros</button>
+  </div>
+
+  <!-- Cards -->
+  <div class="cards-grid" id="cards-grid">
+    <div class="loading-state">
+      <div class="spinner"></div>
+      Cargando líneas de financiamiento...
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  Dirección de Promoción de las Inversiones · <a href="mailto:herramientasfinancieraschubut@gmail.com">herramientasfinancieraschubut@gmail.com</a> · WhatsApp: 2804276775
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════
+// CONFIGURACIÓN — cambiá el ID de tu Google Sheet
+// ═══════════════════════════════════════════════
+const SHEET_ID = '1jemf0nXgGg8wpAzvVEbcXv6npRCQugMh_esI8Qei82A';
+const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&t=${Date.now()}`;
+
+let allData = [];
+let activeTag = '';
+
+// ── CSV PARSER ──
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  const headers = parseLine(lines[0]).map(h => h.toUpperCase().trim());
+  return lines.slice(1).map(line => {
+    const vals = parseLine(line);
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = (vals[i] || '').trim());
+    return obj;
+  });
+}
+function parseLine(line) {
+  const result = []; let cur = ''; let inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (c === '"') { inQ = !inQ; continue; }
+    if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+    else cur += c;
+  }
+  result.push(cur);
+  return result;
+}
+
+// ── PARSEAR TASA ──
+function parseTasa(val) {
+  if (!val || val === '---' || val === 'nan' || val.trim() === '') return null;
+  const s = String(val).replace('%','').replace(',','.').replace(/\s/g,'').trim();
+  const n = parseFloat(s);
+  return isNaN(n) ? null : n;
+}
+
+// ── INFERIR TAG ──
+function inferTag(row) {
+  const text = [
+    row.TAG || '', row.DESTINO || '',
+    row['NOMBRE DE LA LINEA'] || '',
+    row.OBSERVACIONES || '', row.DESTINATARIOS || ''
+  ].join(' ').toUpperCase();
+
+  if (/COMEX|EXPORT|IMPORTA|COMERCIO EXTERIOR|PRE.?FINANCI|POST.?FINANCI/.test(text)) return 'COMEX';
+  if (/CAPITAL DE TRABAJO|CAPITAL\s+TRABAJO/.test(text)) return 'Capital de trabajo';
+  if (/BIEN(ES)?\s*DE\s*CAPITAL|MAQUINARIA|EQUIPAMIENTO/.test(text)) return 'Bienes de capital';
+  if (/DISCAPACIDAD|INCLUSIÓN|INCLUSION|VULNERAB|SOCIAL/.test(text)) return 'Inclusión social';
+  if (/EMPLEO VERDE|INCLUIR TRABAJO|CONTRATA/.test(text)) return 'Empleo';
+  if (/CHUBUT EMPRENDE/.test(text)) return 'Capital de trabajo';
+  if (/INVERSI[OÓ]N/.test(text)) return 'Inversión';
+  if (/PRODUCCI[OÓ]N|AGRO|GANAD|PESCA|ACUICU|AGRICULTU/.test(text)) return 'Producción';
+  return 'General';
+}
+
+// ── NOMBRE ENTIDAD ──
+function entidadNombre(row) {
+  const ent = String(row.ENTIDAD || '').toUpperCase();
+  const lin = String(row['NOMBRE DE LA LINEA'] || '').toUpperCase();
+  if (/CHUBUT EMPRENDE|INCLUIR TRABAJO|DISCAPACIDAD|EMPLEO VERDE/.test(lin)) return 'Sec. Trabajo · Chubut';
+  if (/CRECER/.test(lin) || /PRODUCCI/.test(ent)) return 'Min. de Producción';
+  if (/BICE/.test(ent)) return 'Banco BICE';
+  if (/CFI/.test(ent)) return 'CFI';
+  if (/BNA|NACI[OÓ]N/.test(ent)) return 'Banco Nación';
+  if (/CHUBUT/.test(ent)) return 'Banco del Chubut';
+  if (ent && ent !== '---' && ent !== 'NAN') return ent;
+  return 'Sin especificar';
+}
+
+// ── TAG CSS CLASS ──
+function tagCls(tag) {
+  if (!tag) return 'ctag-general';
+  const t = tag.toUpperCase();
+  if (t.includes('COMEX')) return 'ctag-comex';
+  if (t.includes('CAPITAL DE TRABAJO') || t.includes('CHUBUT EMPRENDE')) return 'ctag-capital';
+  if (t.includes('BIENES')) return 'ctag-bienes';
+  if (t.includes('INCLUS') || t.includes('SOCIAL')) return 'ctag-social';
+  if (t.includes('EMPLEO')) return 'ctag-empleo';
+  if (t.includes('INVERS')) return 'ctag-inversion';
+  if (t.includes('PRODUCC')) return 'ctag-produccion';
+  return 'ctag-general';
+}
+
+// ── CLEAN TEXT ──
+function clean(v) {
+  if (!v || v === '---' || v.toLowerCase() === 'nan' || v.trim() === '0' || v.trim() === '0.0') return '';
+  return v.trim();
+}
+
+// ── LOAD DATA ──
+async function loadData() {
+  try {
+    const res = await fetch(SHEET_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    let rows = parseCSV(text);
+
+    let lastEnt = '';
+    rows = rows.map(r => {
+      if (r.ENTIDAD && r.ENTIDAD !== '---' && r.ENTIDAD.trim() !== '' && r.ENTIDAD.toLowerCase() !== 'nan') {
+        lastEnt = r.ENTIDAD;
+      } else {
+        r.ENTIDAD = lastEnt;
+      }
+      r._entidad = entidadNombre(r);
+      r._tag = inferTag(r);
+      r._tasa = parseTasa(r.TASA);
+      return r;
+    }).filter(r => {
+      const n = r['NOMBRE DE LA LINEA'] || '';
+      return n.trim() && n !== '---' && n.toLowerCase() !== 'nan';
+    });
+
+    allData = rows;
+    buildFilters();
+    render();
+  } catch(e) {
+    document.getElementById('error-banner').classList.add('visible');
+    document.getElementById('error-detail').textContent = e.message;
+    document.getElementById('cards-grid').innerHTML = '';
+    document.getElementById('count-label').textContent = '';
+  }
+}
+
+// ── BUILD FILTERS ──
+function buildFilters() {
+  // Entidades
+  const ents = [...new Set(allData.map(r => r._entidad))].sort();
+  const selEnt = document.getElementById('fil-entidad');
+  ents.forEach(e => {
+    const o = document.createElement('option');
+    o.value = e; o.textContent = e;
+    selEnt.appendChild(o);
+  });
+
+  // Tags
+  const tags = [...new Set(allData.map(r => r._tag))].filter(Boolean).sort();
+  const row = document.getElementById('tags-row');
+  tags.forEach(t => {
+    const btn = document.createElement('button');
+    btn.className = 'tag-btn';
+    btn.dataset.tag = t;
+    btn.innerHTML = `<span class="tag-dot"></span>${t}`;
+    btn.onclick = () => setTag(btn, t);
+    row.appendChild(btn);
+  });
+
+  // Stats globales
+  const tasas = allData.map(r => r._tasa).filter(t => t !== null);
+  document.getElementById('stat-total').textContent = allData.length;
+  document.getElementById('stat-entidades').textContent = ents.length;
+  document.getElementById('stat-min').textContent = tasas.length ? Math.min(...tasas).toFixed(1) + '%' : '—';
+  document.getElementById('stat-max').textContent = tasas.length ? Math.max(...tasas).toFixed(1) + '%' : '—';
+
+  // Eventos
+  document.getElementById('fil-search').addEventListener('input', render);
+  document.getElementById('fil-entidad').addEventListener('change', render);
+  document.getElementById('fil-orden').addEventListener('change', render);
+}
+
+// ── SET TAG ──
+function setTag(btn, tag) {
+  activeTag = (activeTag === tag && tag !== '') ? '' : tag;
+  document.querySelectorAll('.tag-btn').forEach(b => {
+    const isAll = b.dataset.tag === '';
+    const match = b.dataset.tag === activeTag;
+    b.classList.toggle('active', activeTag === '' ? isAll : match);
+  });
+  render();
+}
+
+// ── CLEAR FILTERS ──
+function clearFilters() {
+  document.getElementById('fil-search').value = '';
+  document.getElementById('fil-entidad').value = '';
+  document.getElementById('fil-orden').value = '';
+  activeTag = '';
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.toggle('active', b.dataset.tag === ''));
+  render();
+}
+
+// ── RENDER ──
+function render() {
+  const search = document.getElementById('fil-search').value.toLowerCase().trim();
+  const entFil = document.getElementById('fil-entidad').value;
+  const orden  = document.getElementById('fil-orden').value;
+
+  const hasFilter = search || entFil || activeTag;
+  document.getElementById('clear-btn').classList.toggle('visible', !!hasFilter);
+
+  let data = allData.filter(r => {
+    if (entFil && r._entidad !== entFil) return false;
+    if (activeTag && r._tag !== activeTag) return false;
+    if (search) {
+      const haystack = [r['NOMBRE DE LA LINEA'], r._entidad, r.DESTINATARIOS, r.DESTINO, r.OBSERVACIONES].join(' ').toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    return true;
+  });
+
+  if (orden === 'asc') data.sort((a,b) => (a._tasa ?? 9999) - (b._tasa ?? 9999));
+  if (orden === 'desc') data.sort((a,b) => (b._tasa ?? -1) - (a._tasa ?? -1));
+
+  const tasas = data.map(r => r._tasa).filter(t => t !== null);
+  const minT = tasas.length ? Math.min(...tasas) : null;
+  const maxT = tasas.length ? Math.max(...tasas) : null;
+
+  document.getElementById('count-label').innerHTML =
+    `Mostrando <strong>${data.length}</strong> de <strong>${allData.length}</strong> líneas`;
+
+  const grid = document.getElementById('cards-grid');
+  if (!data.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="big">🔍</div><p>No hay líneas que coincidan con los filtros.<br>Probá cambiar o limpiar los filtros.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = data.map((r, i) => {
+    const nombre = r['NOMBRE DE LA LINEA'] || '—';
+    const tasa   = r._tasa;
+    const tasaTxt = tasa !== null
+      ? tasa.toFixed(1) + '%'
+      : clean(r.TASA) || '—';
+    const tasaCls = tasa === null ? 'tasa-na'
+      : tasa === minT ? 'tasa-low'
+      : tasa === maxT ? 'tasa-high'
+      : 'tasa-mid';
+
+    const meta = [
+      { k: 'Monto',    v: clean(r.MONTO) },
+      { k: 'Plazo',    v: clean(r.PLAZO) },
+      { k: 'Gracia',   v: clean(r['MESES DE GRACIA']) ? clean(r['MESES DE GRACIA']) + ' meses' : '' },
+      { k: 'Para',     v: clean(r.DESTINATARIOS) },
+    ].filter(m => m.v);
+
+    const obs = clean(r.OBSERVACIONES) || clean(r.DESTINO);
+
+    return `<div class="card" style="animation-delay:${Math.min(i * 30, 300)}ms">
+      <div class="card-top">
+        <div class="card-name">${nombre}</div>
+        <div class="entidad-pill">${r._entidad}</div>
+      </div>
+      <div class="card-tag-row">
+        <span class="ctag ${tagCls(r._tag)}">${r._tag}</span>
+      </div>
+      <div class="tasa-block">
+        <span class="tasa-block-label">Tasa anual</span>
+        <span class="tasa-value ${tasaCls}">${tasaTxt}</span>
+      </div>
+      ${meta.length ? `<div class="card-meta">${meta.map(m => `
+        <div class="meta-item">
+          <span class="meta-key">${m.k}</span>
+          <span class="meta-val">${m.v}</span>
+        </div>`).join('')}</div>` : ''}
+      ${obs ? `<div class="card-obs">${obs}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+loadData();
+</script>
+</body>
+</html>
